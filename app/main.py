@@ -37,6 +37,15 @@ def create_app() -> FastAPI:
     application.include_router(health.router)
     application.include_router(api_router, prefix="/api/v1")
 
+    @application.get("/")
+    def root() -> dict[str, str]:
+        return {
+            "service": "interview-copilot-api",
+            "health": "/health",
+            "docs": "/docs",
+            "interview_answer": "/api/v1/interview/answer",
+        }
+
     @application.exception_handler(LLMTimeoutError)
     async def llm_timeout_handler(_request: Request, exc: LLMTimeoutError) -> JSONResponse:
         logger.warning("LLM timeout: %s", exc)

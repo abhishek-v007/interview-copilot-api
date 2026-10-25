@@ -11,7 +11,10 @@ def get_llm_provider(settings: Settings) -> LLMProvider:
     """
 
     if not settings.is_test and not settings.gemini_api_key:
-        raise RuntimeError("GEMINI_API_KEY is required when APP_ENV is not test.")
+        raise RuntimeError(
+            "GEMINI_API_KEY is required when APP_ENV is not test. "
+            "Copy .env.example to .env and set a real Gemini API key."
+        )
 
     return GeminiProvider(
         api_key=settings.gemini_api_key,
